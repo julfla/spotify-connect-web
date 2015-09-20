@@ -1,6 +1,6 @@
 # Spotify Connect Web
 
-This is based off of the example code from https://github.com/plietar/spotify-connect
+Fork from https://github.com/Fornoth/spotify-connect-web modified to work with RPi2
 
 ## Quickstart using a pre-built chroot
 If you just want to get running, you can use a pre-built chroot with the latest version installed.
@@ -31,7 +31,7 @@ Run `pip install -r requirements.txt` and also `apt-get install python-gevent` (
 Can either be installed via `pip` (requires the ALSA headers (`libasound2-dev` package on Debian/Ubuntu)) or the `python-alsaaudio` package on Debian/Ubuntu
 
 ## Usage
-Tested against the rocki `libspotify_embedded_shared.so`
+Tested against the  armhf `libspotify_embedded_shared.so` taken from https://github.com/sashahilton00/spotify-connect-resources/tree/master/armhf%20version
 ```
 usage: main.py [-h] [--device DEVICE] [--mixer MIXER] [--debug] [--key KEY]
                [--username USERNAME] [--password PASSWORD] [--name NAME]
@@ -42,7 +42,7 @@ Web interface for Spotify Connect
 optional arguments:
   -h, --help            show this help message and exit
   --device DEVICE, -D DEVICE
-                        alsa output device
+                        alsa card number to aplay -l should tell you list of available devices
   --mixer MIXER, -m MIXER
                         alsa mixer name for volume control
   --debug, -d           enable libspotify_embedded/flask debug output
