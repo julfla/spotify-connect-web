@@ -84,7 +84,8 @@ class Connect:
 
         playback_setup()
 
-        print_zeroconf_vars()
+	# TODO figure out why glibc free doesn't work
+        # print_zeroconf_vars()
 
         if self.credentials['username'] and self.args.password:
             self.login(password=self.args.password)

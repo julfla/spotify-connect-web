@@ -12,13 +12,15 @@ SAMPLESIZE = 2 # 16 bit integer
 MAXPERIODS = int(0.5 * RATE / PERIODSIZE) # 0.5s Buffer
 
 audio_arg_parser = argparse.ArgumentParser(add_help=False)
-audio_arg_parser.add_argument('--device', '-D', help='alsa output device', default='default')
+audio_arg_parser.add_argument('--device', '-D', help='alsa output device', default='0')
 audio_arg_parser.add_argument('--mixer', '-m', help='alsa mixer name for volume control', default=alsa.mixers()[0])
 args = audio_arg_parser.parse_known_args()[0]
 
 device = alsa.PCM(
         alsa.PCM_PLAYBACK,
-        card = args.device)
+	# according to docs card parameter is deprecated, so using cardindex instead
+	# http://larsimmisch.github.io/pyalsaaudio/libalsaaudio.html#pcm-objects
+        cardindex = int(args.device))
 
 device.setchannels(CHANNELS)
 device.setrate(RATE)
