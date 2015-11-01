@@ -150,6 +150,9 @@ def playback_seek(self, millis):
 @userdata_wrapper
 def playback_volume(self, volume):
     print "playback_volume: {}".format(volume)
+    if (volume < 0):
+        volume = 100
+        print "WARNING : no mixer found, set volume to {} instead".format(volume)
     mixer.setvolume(int(volume / 655.35))
 
 connection_callbacks = ffi.new('SpConnectionCallbacks *', [
