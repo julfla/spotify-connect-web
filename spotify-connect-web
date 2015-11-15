@@ -1,0 +1,60 @@
+#!/bin/bash
+
+# Quick start-stop-daemon example, derived from Debian /etc/init.d/ssh
+set -e
+
+
+SOURCE="${BASH_SOURCE[0]}"
+while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symlink
+  DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+  SOURCE="$(readlink "$SOURCE")"
+  [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE" # if $SOURCE was a relative symlink, we need to resolve it relative to the path where the symlink file was located
+done
+CHDIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+
+
+# Must be a valid filename
+NAME=spotify-connect-web
+PIDFILE=/var/run/$NAME.pid
+LOGFILE=/var/log/$NAME.log
+
+PYTHON_BIN=$(which python)
+#This is the command to be run, give the full pathname
+DAEMON="$PYTHON_BIN main.py"
+DAEMON_OPTS="--device softvol"
+
+do_start()
+{
+  echo "Starting $NAME"
+  start-stop-daemon --chdir $CHDIR \
+                    --start --background --quiet \
+                    --make-pidfile --pidfile $PIDFILE \
+                    --exec $DAEMON -- $DAEMON_OPTS
+}
+
+do_stop()
+{
+  echo "Stopping $NAME"
+  start-stop-daemon --stop --quiet --oknodo \
+                    --pidfile $PIDFILE --remove-pidfile
+}
+
+case "$1" in
+  start)
+    do_start
+    ;;
+  stop)
+    do_stop
+    ;;
+  restart)
+    do_stop
+    do_start
+    ;;
+
+  *)
+    echo "Usage: "$1" {start|stop|restart}"
+    exit 1
+esac
+
+exit 0
+
